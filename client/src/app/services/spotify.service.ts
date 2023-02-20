@@ -38,7 +38,6 @@ export class SpotifyService {
     //JavaScript's "map" function might be useful for this, but there are other ways of building the array
     let rec = encodeURIComponent(resource);
     return this.sendRequestToExpress(`/search/${category}/${rec}`).then((data)=>{
-      console.log(data);
       if (category=="artist"){
         return data['artists']['items'].map(artist => new ArtistData(artist))
       }
@@ -55,22 +54,29 @@ export class SpotifyService {
     //use the artist endpoint to make a request to express.
     //Again, you may need to encode the artistId.
     let artist = encodeURIComponent(artistId);
-    return this.sendRequestToExpress(`/artist/${artist}`).then((data=> new ArtistData(data)));
+    return this.sendRequestToExpress(`/artist/${artist}`).then((response)=> {
+      return new ArtistData(response);
+    });
   }
 
   getRelatedArtists(artistId:string):Promise<ArtistData[]> {
-    //TODO: use the related artist endpoint to make a request to express and return an array of artist data.
-   return null as any;
+    //use the related artist endpoint to make a request to express and return an array of artist data.
+   return this.sendRequestToExpress(`/artist-related-artists/${artistId}`).then((response)=> {
+     return response['artists'].map(artist => new ArtistData(artist));
+   })
+
   }
 
   getTopTracksForArtist(artistId:string):Promise<TrackData[]> {
-    //TODO: use the top tracks endpoint to make a request to express.
-    return null as any;
+    //use the top tracks endpoint to make a request to express.
+    return this.sendRequestToExpress(`/artist-top-tracks/${artistId}`).then((response)=>
+        response['tracks'].map(track=> new TrackData(track)));
   }
 
   getAlbumsForArtist(artistId:string):Promise<AlbumData[]> {
-    //TODO: use the albums for an artist endpoint to make a request to express.
-    return null as any;
+    //use the albums for an artist endpoint to make a request to express.
+    return this.sendRequestToExpress(`/artist-albums/${artistId}`).then((response)=>
+        response['items'].map(album=> new AlbumData(album)));
   }
 
   getAlbum(albumId:string):Promise<AlbumData> {
