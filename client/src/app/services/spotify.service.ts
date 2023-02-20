@@ -6,6 +6,7 @@ import { TrackData } from '../data/track-data';
 import { ResourceData } from '../data/resource-data';
 import { ProfileData } from '../data/profile-data';
 import { TrackFeature } from '../data/track-feature';
+import {retry} from "rxjs";
 
 
 @Injectable({
@@ -20,36 +21,42 @@ export class SpotifyService {
     //use the injected http Service to make a get request to the Express endpoint and return the response.
     //the http service works similarly to fetch(). It may be useful to call .toPromise() on any responses.
     //update the return to instead return a Promise with the data from the Express server
-    //Note: toPromise() is a deprecated function that will be removed in the future.
-    //It's possible to do the assignment using lastValueFrom, but we recommend using toPromise() for now as we haven't
-    //yet talked about Observables. https://indepth.dev/posts/1287/rxjs-heads-up-topromise-is-being-deprecated
+    // https://indepth.dev/posts/1287/rxjs-heads-up-topromise-is-being-deprecated
     let response = this.http.get(this.expressBaseUrl+endpoint).toPromise();
     return Promise.resolve(response);
   }
 
   aboutMe():Promise<ProfileData> {
     //This line is sending a request to express, which returns a promise with some data. We're then parsing the data
-    return this.sendRequestToExpress('/me').then((data) => {
-      return new ProfileData(data);
-    });
+    return this.sendRequestToExpress('/me').then(data => new ProfileData(data));
   }
 
   searchFor(category:string, resource:string):Promise<ResourceData[]> {
-    //TODO: identify the search endpoint in the express webserver (routes/index.js) and send the request to express.
+    //Identify the search endpoint in the express webserver (routes/index.js) and send the request to express.
     //Make sure you're encoding the resource with encodeURIComponent().
     //Depending on the category (artist, track, album), return an array of that type of data.
     //JavaScript's "map" function might be useful for this, but there are other ways of building the array
+    let rec = encodeURIComponent(resource);
+    return this.sendRequestToExpress(`/search/${category}/${rec}`).then((data)=>{
+      if (category==="artist"){
+        return data['artists']['items'].map(artist => new ArtistData(artist))
+      }
+      if (category==="track"){
+        return data['tracks']['items'].map(track => new TrackData(track));
+      }
+      if (category==="album"){
+        return  data['albums']['items'].map(album => new AlbumData(album));
+      }
+      return null;
+    })
 
-    let res = this.sendRequestToExpress(resource)
-    // return this.sendRequestToExpress(`/search/${category}/${res}`).then((data)=>{
-
-    return null as any;
   }
 
   getArtist(artistId:string):Promise<ArtistData> {
-    //TODO: use the artist endpoint to make a request to express.
+    //use the artist endpoint to make a request to express.
     //Again, you may need to encode the artistId.
-    return null as any;
+    let artist = encodeURIComponent(artistId);
+    return this.sendRequestToExpress(`/artist/${artist}`).then((data=> new ArtistData(data)));
   }
 
   getRelatedArtists(artistId:string):Promise<ArtistData[]> {
