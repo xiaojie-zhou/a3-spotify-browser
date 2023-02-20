@@ -22,7 +22,7 @@
 		<!--display artist name-->
 		<h3>{{artist.name}}'s Top Tracks</h3>
 		<!--display the artist's top tracks-->
-		<app-track-list [tracks]="topTracks"></app-track-list>
+		<app-track-list [tracks]="topTracks" ></app-track-list>
 	</div>
 </div>
 
@@ -30,12 +30,12 @@
 	<div class="col-6">
 		<!--display artist name-->
 		<h3>{{artist.name}}'s Albums</h3>
-		<!--TODO: Display a carousel component for the artist's albums. Bind carousel's resources and give it a static carouselId.-->
+		<!--Display a carousel component for the artist's albums. Bind carousel's resources and give it a static carouselId.-->
 		<app-carousel [carouselId]="'albums'" [resources]="albums"></app-carousel>
 	</div>
 	<div class="col-6">
 		<h3>Similar Artists</h3>
-		<!--TODO: Display a carousel component for similar artists. Bind carousel's resources and give it a static carouselId.-->
+		<!--Display a carousel component for similar artists. Bind carousel's resources and give it a static carouselId.-->
 		<app-carousel [carouselId]="'artists'" [resources]="relatedArtists"></app-carousel>
 	</div>
 

@@ -2,13 +2,13 @@
 
 1. How many assignment points do you believe you completed (replace the *'s with your numbers)?
 
-*/20
+20/20
 - 2/2 Communicating with the webserver
 - 3/3 Populating information about the user
 - 4/4 Populating the search component
 - 5/5 Artist page
 - 3/3 Album page
-- */3 Track page
+- 3/3 Track page
 
 
 2. How long, in hours, did it take you to complete this assignment?
@@ -24,8 +24,9 @@ No one outside the team
 
 
 5. Did you add a bonus feature to your submission? If so, what is it and how should we see it?
-A logout feature on the home page
+A logout feature on the home page (This is so lame. Just ignore this.)
 
 
 6. Is there anything special we need to know in order to run your code?
+None
 
