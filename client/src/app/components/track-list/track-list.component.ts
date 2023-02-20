@@ -11,7 +11,7 @@ export class TrackListComponent implements OnInit {
 	@Input() hideArtist:boolean = false;
 	@Input() hideAlbum:boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }
