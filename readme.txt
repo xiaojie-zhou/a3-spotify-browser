@@ -6,8 +6,8 @@
 - 2/2 Communicating with the webserver
 - 3/3 Populating information about the user
 - 4/4 Populating the search component
-- */5 Artist page
-- */3 Album page
+- 5/5 Artist page
+- 3/3 Album page
 - */3 Track page
 
 

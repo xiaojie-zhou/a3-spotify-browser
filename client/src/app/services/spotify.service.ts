@@ -6,7 +6,7 @@ import { TrackData } from '../data/track-data';
 import { ResourceData } from '../data/resource-data';
 import { ProfileData } from '../data/profile-data';
 import { TrackFeature } from '../data/track-feature';
-import {retry} from "rxjs";
+
 
 
 @Injectable({
@@ -61,10 +61,9 @@ export class SpotifyService {
 
   getRelatedArtists(artistId:string):Promise<ArtistData[]> {
     //use the related artist endpoint to make a request to express and return an array of artist data.
-   return this.sendRequestToExpress(`/artist-related-artists/${artistId}`).then((response)=> {
-     return response['artists'].map(artist => new ArtistData(artist));
-   })
-
+    return this.sendRequestToExpress(`/artist-related-artists/${artistId}`)
+        .then(response=>response['artists'].map(artist => new ArtistData(artist))
+    )
   }
 
   getTopTracksForArtist(artistId:string):Promise<TrackData[]> {
@@ -80,22 +79,23 @@ export class SpotifyService {
   }
 
   getAlbum(albumId:string):Promise<AlbumData> {
-    //TODO: use the album endpoint to make a request to express.
-    return null as any;
+    //use the album endpoint to make a request to express.
+    return this.sendRequestToExpress(`/album/${albumId}`).then(response=> new AlbumData(response));
   }
 
   getTracksForAlbum(albumId:string):Promise<TrackData[]> {
-    //TODO: use the tracks for album endpoint to make a request to express.
-    return null as any;
+    //use the tracks for album endpoint to make a request to express.
+    return this.sendRequestToExpress(`/album-tracks/${albumId}`).then(response=>
+        response['items'].map(track=> new TrackData(track)));
   }
 
   getTrack(trackId:string):Promise<TrackData> {
-    //TODO: use the track endpoint to make a request to express.
-    return null as any;
+    //use the track endpoint to make a request to express.
+    return this.sendRequestToExpress(`/track/${trackId}`).then(response=> new TrackData(response));
   }
 
   getAudioFeaturesForTrack(trackId:string):Promise<TrackFeature[]> {
-    //TODO: use the audio features for track endpoint to make a request to express.
+    //use the audio features for track endpoint to make a request to express.
     return null as any;
   }
 }
