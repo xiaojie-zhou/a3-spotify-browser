@@ -43,3 +43,5 @@ Thumbs.db
 
 webserver/tokens.json
 webserver/client_secret.json
+homebrew/
+node-js-getting-started/
